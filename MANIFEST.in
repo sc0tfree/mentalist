@@ -1,0 +1,3 @@
+recursive-include mentalist/data *.txt
+recursive-include mentalist/data *.psv
+include mentalist/icons/mentalist.gif
