@@ -35,6 +35,10 @@ Contributions are always welcomed! Please let me know if there's a specific piec
 
 A special thanks to Craig Baker, who was instrumental in helping to develop the backend logic of Mentalist. Additionally, thank you to Shane Carlyon, whose Tkinter-fu was invaluable, and to Gregory Brewer, who contributed the artwork to this project.
 
+## Note on ‘Slang and Expletives’ List
+
+I apologize to anyone offended by the built-in list of `Slang & Expletives`, compiled from a variety of sources. The reality is that some people use truly heinous words for their credentials and this list is meant to help crack them.
+
 ## Future Work
 
 * Ability to scrape sites as an attribute in the Base Words node.
