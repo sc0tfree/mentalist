@@ -2,6 +2,7 @@ import tkinter as Tk
 import tkinter.filedialog
 import tkinter.messagebox
 
+import locale
 from functools import partial
 
 from .base import BaseNode
