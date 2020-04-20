@@ -318,10 +318,14 @@ class AdderNode(BaseWordsNode):
             label = 'AlphaNumeric Characters: {}'.format(' '.join(checked_vals))
             if checked_vals == "a-z":
                 self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="abcdefghijklmnopqrstuvwxyz")
+            elif checked_vals == "A-Z":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
             elif checked_vals == "a-zA-Z":
                 self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
             elif checked_vals == "a-zA-Z0-9":
                 self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+            elif checked_vals == "0-9":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="0123456789")
         self.cancel_alphaNumeric()
 
         

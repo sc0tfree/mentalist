@@ -23,4 +23,4 @@ SPECIAL_CHARACTERS = '''!@#$%^&*()-=_+~[]{}\|/:;'"`´?§€<>°'''
 
 SPECIAL_TYPES = ['One at a time', 'All together']
 
-ALPHANUMERIC_CHARS = ['a-z', 'a-zA-Z', 'a-zA-Z0-9']
+ALPHANUMERIC_CHARS = ['a-z', 'A-Z', 'a-zA-Z', 'a-zA-Z0-9', '0-9']
