@@ -5,7 +5,7 @@ import tkinter.messagebox
 import locale
 
 from .base_words import BaseWordsNode, center_window
-from .const import NUMBER_LIST, DATE_FORMATS, SPECIAL_CHARACTERS
+from .const import NUMBER_LIST, DATE_FORMATS, SPECIAL_CHARACTERS, ALPHANUMERIC_CHARS
 from .. import model
 
 
@@ -20,6 +20,7 @@ class AdderNode(BaseWordsNode):
         self.custom_num_window = None
         self.entry_string = None
         self.date_format = Tk.StringVar()
+        self.alphanum_format = Tk.StringVar()
         self.special_dlg = None
         self.chk_special = []
 
@@ -35,9 +36,9 @@ class AdderNode(BaseWordsNode):
         mb.menu.add_cascade(label='Words', menu=m_words, underline=0)
         m_words.add_command(label='Custom File...', command=partial(self.open_file_dlg, partial(self.controller.add_attr, label='File:', right_label_text='Calculating...', node_view=self, attr_class=model.FileAttr, controller=self.controller)))
         m_words.add_command(label='Custom String...', command=partial(self.open_string_popup, 'String'))
-        
+   
         self.add_file_menu(m_words, m_words)
-        
+
         # In addition to BaseFile's attributes, we have numbers, dates,
         # and special characters
         m_numbers = Tk.Menu(mb, tearoff=0)
@@ -54,6 +55,8 @@ class AdderNode(BaseWordsNode):
         m_numbers.add_command(label='Dates...', command=self.open_date_dlg)
 
         mb.menu.add_command(label="Special Characters...", command=self.open_special_dlg)
+
+        mb.menu.add_command(label="Alphanumeric Characters...", command=self.open_alphaNumeric_dlg)
 
         # Area and zip codes from lookup tables
         for code_type in ['Area', 'Zip']:
@@ -263,3 +266,66 @@ class AdderNode(BaseWordsNode):
             label = 'Special Characters: {}'.format(' '.join(checked_vals))
             self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings=checked_vals)
         self.cancel_special()
+
+    def open_alphaNumeric_dlg(self):
+        '''Open a popup for selecting alphaNumeric characters
+        '''
+        self.alphaNumeric_dlg = Tk.Toplevel()
+        self.alphaNumeric_dlg.withdraw()
+        self.alphaNumeric_dlg.title('Select AlphaNumeric Characters')
+        self.alphaNumeric_dlg.resizable(width=False, height=False)
+        frame = Tk.Frame(self.alphaNumeric_dlg)
+        lb = Tk.Label(frame, text='Select AlphaNumeric Characters'.format(self.title))
+        lb.pack(fill='both', side='top')
+
+        box = Tk.Frame(frame)
+        drop_down = Tk.OptionMenu(frame, self.alphanum_format, *ALPHANUMERIC_CHARS)
+        drop_down.configure(width=max(map(len, ALPHANUMERIC_CHARS)) + 4)
+        self.alphanum_format.set('a-z')
+        drop_down.pack(side='top')
+        
+        # lb1 = Tk.Label(box, text='Number: ')
+        # lb1.pack(side='left', padx=5)
+        # self.sp_case = Tk.Spinbox(box, width=12, from_=1, to=50)
+        # self.sp_case.pack(side='left')
+
+        box.pack(fill='both', side='top', padx=30, pady=20)
+
+        # Ok and Cancel buttons
+        btn_box = Tk.Frame(frame)
+        btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_alphaNumeric)
+        btn_cancel.pack(side='right', padx=10, pady=20)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_alphaNumeric_dlg)
+        btn_ok.pack(side='left', padx=10, pady=20)
+        btn_box.pack()
+        frame.pack(fill='both', padx=60, pady=10)
+        
+        center_window(self.alphaNumeric_dlg, self.main.master)
+        self.alphaNumeric_dlg.focus_set()
+
+    def cancel_alphaNumeric(self, *args):
+        if self.alphaNumeric_dlg:
+            self.alphaNumeric_dlg.destroy()
+            self.alphaNumeric_dlg = None
+
+    def on_ok_alphaNumeric_dlg(self, *args):
+        '''Ok was pressed, add the alphanumeric character attribute
+        '''
+        checked_vals = self.alphanum_format.get()
+        # amount = self.sp_case.get()
+
+        if len(checked_vals) > 0:
+            label = 'AlphaNumeric Characters: {}'.format(' '.join(checked_vals))
+            if checked_vals == "a-z":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="abcdefghijklmnopqrstuvwxyz")
+            elif checked_vals == "A-Z":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+            elif checked_vals == "a-zA-Z":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ")
+            elif checked_vals == "a-zA-Z0-9":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+            elif checked_vals == "0-9":
+                self.controller.add_attr(label=label, node_view=self, attr_class=model.StringListAttr, strings="0123456789")
+        self.cancel_alphaNumeric()
+
+        

@@ -19,6 +19,8 @@ SUBSTITUTION_CHECKS = ['a -> @', 'b -> 8', 'c -> (', 'd -> 6', 'e -> 3', 'f -> #
 
 DATE_FORMATS = ['mmddyy', 'ddmmyy', 'mmddyyyy', 'ddmmyyyy', 'mmyyyy', 'mmyy', 'mmdd']
 
-SPECIAL_CHARACTERS = '''!@#$%^&*()-=_+`~[]{}\|/:;'"'''
+SPECIAL_CHARACTERS = '''!@#$%^&*()-=_+~[]{}\|/:;'"`´?§€<>°'''
 
 SPECIAL_TYPES = ['One at a time', 'All together']
+
+ALPHANUMERIC_CHARS = ['a-z', 'A-Z', 'a-zA-Z', 'a-zA-Z0-9', '0-9']
