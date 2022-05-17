@@ -46,3 +46,7 @@ I apologize to anyone offended by the built-in list of `Slang & Expletives`, com
 * Add UK post codes to Append/Prepend Nodes
 * Option to perform de-duplication of Base Words
 * Mentalist Chain file differencing
+
+## Translations
+
+* [:georgia: Georgian](https://github.com/sc0tfree/mentalist/blob/master/translations/README-ka-GE.md)
