@@ -1,6 +1,6 @@
 #! /usr/bin/env python3
 
-logo = '''
+logo = r'''
                     _        _ _     _         
    /\/\   ___ _ __ | |_ __ _| (_)___| |_       
   /    \ / _ \ '_ \| __/ _` | | / __| __|      
@@ -11,8 +11,9 @@ logo = '''
 import sys
 import os
 
-if (sys.version_info < (3, 0)):
-    print('Error: Mentalist only works with Python 3')
+if (sys.version_info < (3, 11)):
+    print('Error: Mentalist requires Python 3.11 or higher')
+    print(f'You are running Python {sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}')
     sys.exit(1)
 
 from . import version
