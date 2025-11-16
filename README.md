@@ -19,7 +19,7 @@ For more information on installing and using Mentalist, please **[visit the wiki
   <img src="./assets/mentalist-demo.gif" alt="Mentalist GUI Demo"/>
 </p>
 
-To get up and running quickly, download a prebuilt executable on the [releases page](https://github.com/sc0tfree/mentalist/releases).
+**Prebuilt executables** are available for [v1.0](https://github.com/sc0tfree/mentalist/releases/tag/v1.0) (Python 3.6-3.10 only). For v2.0+ with Python 3.11+ support, use Poetry or pip installation below.
 
 ## Installation
 
