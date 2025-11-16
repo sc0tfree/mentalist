@@ -197,10 +197,14 @@ class MainWindow(Tk.Frame):
                 if not tkinter.messagebox.askokcancel('Warning', 'Replace First and Replace Last are incompatible with Hashcat/John rules. Continue with all instances of First and Last changed to All?', parent=self.master):
                     return
             filetypes = [("Rule files", "*.rules")]
+            default_ext = ".rules"
+            initial_file = "wordlist.rules"
         else:
             filetypes=[("Text files", "*.txt")]
+            default_ext = ".txt"
+            initial_file = "wordlist.txt"
         
-        opt_file_path = tkinter.filedialog.asksaveasfile(parent=self.master, filetypes=filetypes)
+        opt_file_path = tkinter.filedialog.asksaveasfile(parent=self.master, filetypes=filetypes, defaultextension=default_ext, initialfile=initial_file)
         if opt_file_path:
             print()
             print('---------------------\n' \
@@ -242,7 +246,7 @@ class MainWindow(Tk.Frame):
     def on_save(self):
         '''Save Chain was selected
         '''
-        path = tkinter.filedialog.asksaveasfile(parent=self.master, filetypes=[("Mentalist chain files", "*.mentalist")])
+        path = tkinter.filedialog.asksaveasfile(parent=self.master, filetypes=[("Mentalist chain files", "*.mentalist")], defaultextension=".mentalist", initialfile="chain.mentalist")
         if path:
             self.controller.save(path.name)
     
