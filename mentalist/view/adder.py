@@ -46,7 +46,11 @@ class AdderNode(BaseWordsNode):
         for type_, range_str in NUMBER_LIST:
             range_ = list(map(int, range_str.split('-')))
             if type_ != 'years':
-                range_str = '-'.join(['0', locale.format('%d', range_[1], grouping=True)])
+                try:
+                    formatted_num = locale.format_string('%d', range_[1], grouping=True)
+                except (ValueError, locale.Error):
+                    formatted_num = str(range_[1])
+                range_str = '-'.join(['0', formatted_num])
             range_[1] += 1
             m_numbers.add_command(label='{}: {}'.format(type_.capitalize(), range_str),
                                   command=partial(
@@ -74,9 +78,11 @@ class AdderNode(BaseWordsNode):
         '''Opens a popup for defining a custom number range
         '''
         self.custom_num_window = Tk.Toplevel()
+        self.custom_num_window.transient(self.main.master)
         self.custom_num_window.withdraw()
         self.custom_num_window.title('{}: Number Selection'.format(self.title))
         self.custom_num_window.resizable(width=False, height=False)
+        self.custom_num_window.grab_set()
         
         frame = Tk.Frame(self.custom_num_window)
         lb = Tk.Label(frame, text='Select Numbers to {}'.format(self.title))
@@ -104,14 +110,14 @@ class AdderNode(BaseWordsNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_custom_num_window)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_custom_num_window)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_custom_num_window, default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.custom_num_window, self.main.master)
-        
-        self.custom_num_window.focus_set()
+        self.custom_num_window.bind('<Return>', lambda e: self.on_ok_custom_num_window())
+        btn_ok.focus_set()
 
     def cancel_custom_num_window(self, *args):
         '''Cancel was pressed
@@ -150,9 +156,11 @@ class AdderNode(BaseWordsNode):
         '''Open a popup for defining a range of dates
         '''
         self.custom_num_window = Tk.Toplevel()
+        self.custom_num_window.transient(self.main.master)
         self.custom_num_window.withdraw()
         self.custom_num_window.title('{}: Date Selection'.format(self.title))
         self.custom_num_window.resizable(width=False, height=False)
+        self.custom_num_window.grab_set()
         frame = Tk.Frame(self.custom_num_window)
         lb = Tk.Label(frame, text='Select Dates to {}'.format(self.title))
         lb.pack(fill='both', side='top')
@@ -186,14 +194,15 @@ class AdderNode(BaseWordsNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_custom_num_window)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_date_window)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_date_window, default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.custom_num_window, self.main.master)
-        self.custom_num_window.focus_set()
+        self.custom_num_window.bind('<Return>', lambda e: self.on_ok_date_window())
+        btn_ok.focus_set()
 
     def on_ok_date_window(self):
         '''Ok was pressed, add the date range attribute
@@ -220,9 +229,11 @@ class AdderNode(BaseWordsNode):
         '''Open a popup for selecting special characters
         '''
         self.special_dlg = Tk.Toplevel()
+        self.special_dlg.transient(self.main.master)
         self.special_dlg.withdraw()
         self.special_dlg.title('Select Special Characters')
         self.special_dlg.resizable(width=False, height=False)
+        self.special_dlg.grab_set()
         frame = Tk.Frame(self.special_dlg)
         lb = Tk.Label(frame, text='Select Special Characters'.format(self.title))
         lb.pack(fill='both', side='top')
@@ -242,13 +253,14 @@ class AdderNode(BaseWordsNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_special)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_special_dlg)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_special_dlg, default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=60, pady=10)
         
         center_window(self.special_dlg, self.main.master)
-        self.special_dlg.focus_set()
+        self.special_dlg.bind('<Return>', lambda e: self.on_ok_special_dlg())
+        btn_ok.focus_set()
 
     def cancel_special(self, *args):
         if self.special_dlg:

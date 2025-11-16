@@ -1,11 +1,11 @@
-![Version 1.0](http://img.shields.io/badge/version-v1.0-orange.svg)
-![Python 3.6](http://img.shields.io/badge/python-3.6-blue.svg)
+![Version 2.0](http://img.shields.io/badge/version-v2.0-orange.svg)
+![Python 3.11+](http://img.shields.io/badge/python-3.11+-blue.svg)
 ![MIT License](http://img.shields.io/badge/license-MIT%20License-blue.svg)
 [![sc0tfree Twitter](http://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow)](https://twitter.com/sc0tfree)
 
 # Mentalist
 <p align="center">
-  <img src="https://sc0tfree.squarespace.com/s/Mentalist-logo-250px.png" alt="Logo"/>
+  <img src="./assets/mentalist-logo.png" alt="Mentalist Logo" width="250"/>
 </p>
 <br>
 
@@ -16,10 +16,70 @@ For more information on installing and using Mentalist, please **[visit the wiki
 
 <br>
 <p align="center">
-  <img src="https://sc0tfree.squarespace.com/s/mentalist-readme-gui.gif" alt="Mentalist GUI"/>
+  <img src="./assets/mentalist-demo.gif" alt="Mentalist GUI Demo"/>
 </p>
 
 To get up and running quickly, download a prebuilt executable on the [releases page](https://github.com/sc0tfree/mentalist/releases).
+
+## Installation
+
+**IMPORTANT:** Version 2.0+ requires Python 3.11 or higher. If you need to use an older Python version, please use [Mentalist v1.0](https://github.com/sc0tfree/mentalist/releases/tag/v1.0).
+
+### Using Poetry (Recommended)
+
+```bash
+# Install Poetry if you haven't already
+curl -sSL https://install.python-poetry.org | python3 -
+
+# Clone and install Mentalist
+git clone https://github.com/sc0tfree/mentalist.git
+cd mentalist
+poetry install
+
+# Run Mentalist
+poetry run mentalist
+```
+
+### Using pip
+
+```bash
+# Clone the repository
+git clone https://github.com/sc0tfree/mentalist.git
+cd mentalist
+
+# Install Mentalist
+pip install .
+
+# Run Mentalist
+python -m mentalist
+```
+
+### Development
+
+```bash
+# Install with Poetry
+poetry install
+
+# Run tests
+poetry run pytest
+
+# Build distribution packages
+poetry build
+```
+
+### Building Standalone Executable
+
+You can create a standalone executable using PyInstaller:
+
+```bash
+# Install PyInstaller (add to dev dependencies)
+poetry add --group dev pyinstaller
+
+# Build the executable
+poetry run pyinstaller mentalist.spec
+
+# The executable will be in the dist/ directory
+```
 
 ## Disclaimer
 

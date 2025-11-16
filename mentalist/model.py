@@ -47,7 +47,7 @@ class Serializable(object):
                              'kwargs': {}}
                 
                 # Get all of the members with names matching args to __init__
-                for name in inspect.getargspec(attr.__class__.__init__)[0]:
+                for name in list(inspect.signature(attr.__class__.__init__).parameters.keys()):
                     if name in ['self', 'controller']:
                         continue
 
@@ -454,7 +454,7 @@ class BaseAttr(Serializable):
         # This checks whether the two attributes have the same values for their
         # __init__ arguments (like in serialization)
         result = True
-        for name in inspect.getargspec(self.__class__.__init__)[0]:
+        for name in list(inspect.signature(self.__class__.__init__).parameters.keys()):
             if name in ['self', 'controller']:
                 continue
             if (name in other.__dict__) and (self.__dict__[name] != other.__dict__[name]):
@@ -610,11 +610,12 @@ class FileAttr(ThreadingAttr):
             yield word
     
         try:
-            for line in open(self.absolute_path, errors='surrogateescape'):
-                if line[-1] == '\n':
-                    line = line[:-1]
-                self.words_read += 1
-                yield line
+            with open(self.absolute_path, errors='surrogateescape') as f:
+                for line in f:
+                    if line[-1] == '\n':
+                        line = line[:-1]
+                    self.words_read += 1
+                    yield line
 
         except Exception as e:
             self.file_error = str(e)
@@ -772,15 +773,16 @@ def load_codes(location_type, code_type):
     path = os.path.join(data_dir, '-'.join([location_type, code_type])+'.psv')
     code_dict = {}
     i = 0
-    for line in open(path).read().split('\n'):
-        if line == '': continue # allow final newline
-        location, codes = line.split('|')
-        i += 1
-        codes = codes.split(',')
-        if location in code_dict:
-            code_dict[location].extend(codes)
-        else:
-            code_dict[location] = codes
+    with open(path) as f:
+        for line in f.read().split('\n'):
+            if line == '': continue # allow final newline
+            location, codes = line.split('|')
+            i += 1
+            codes = codes.split(',')
+            if location in code_dict:
+                code_dict[location].extend(codes)
+            else:
+                code_dict[location] = codes
     return code_dict
 
 location_codes = {}
@@ -793,9 +795,9 @@ def clean_code_file(location_type, code_type):
     '''Utility for outputting sorted version of code file with no duplicates
     '''
     path = os.path.join(data_dir, '-'.join([location_type, code_type])+'.psv')
-    f = open(path, 'w')
-    for state, codes in sorted(location_codes[location_type][code_type].items()):
-        f.write('|'.join([state, ','.join(sorted(set(codes)))])+'\n')
+    with open(path, 'w') as f:
+        for state, codes in sorted(location_codes[location_type][code_type].items()):
+            f.write('|'.join([state, ','.join(sorted(set(codes)))])+'\n')
 
 class LocationCodeAttr(BaseAttr):
     '''Generates zip codes and area codes
@@ -927,9 +929,10 @@ class CaseAttr(BaseAttr):
 # This file contains the percent of English dictionary words containing at least
 # one instance of each letter.
 character_freq = {}
-for line in open(os.path.join(data_dir, 'Letter_Stats.txt')).read().split('\n'):
-    letter, percent = line.split(',')
-    character_freq[letter] = float(percent[:-1]) / 100.
+with open(os.path.join(data_dir, 'Letter_Stats.txt')) as f:
+    for line in f.read().split('\n'):
+        letter, percent = line.split(',')
+        character_freq[letter] = float(percent[:-1]) / 100.
 
 class SubstitutionAttr(BaseAttr):
     '''Substitutes one character for another

@@ -3,6 +3,10 @@
 '''
 PyInstaller build specification for building a stand-alone application
 on the current platform
+
+Note: This project now uses Poetry for dependency management.
+Install dependencies first with: poetry install
+Then build with: poetry run pyinstaller mentalist.spec
 '''
 
 import sys

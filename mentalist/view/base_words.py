@@ -5,7 +5,7 @@ import tkinter.messagebox
 from functools import partial
 
 from .base import BaseNode
-from .main import center_window
+from .main import center_window, word_count_to_string
 from .. import model
 
 class FileErrorFrame(Tk.Frame):
@@ -76,9 +76,11 @@ class BaseWordsNode(BaseNode):
         type_: the name to appear in labels ('Base Words')
         '''
         self.string_popup = Tk.Toplevel()
+        self.string_popup.transient(self.main.master)
         self.string_popup.withdraw()
         self.string_popup.title('Input Custom String ({})'.format(type_))
         self.string_popup.resizable(width=False, height=False)
+        self.string_popup.grab_set()
         frame = Tk.Frame(self.string_popup)
         lb = Tk.Label(frame, text='Input Custom String - {}'.format(self.title))
         lb.pack(fill='both', side='top')
@@ -93,13 +95,14 @@ class BaseWordsNode(BaseNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_string_popup)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_string_popup, type_))
+        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_string_popup, type_), default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.string_popup, self.main.master)
-        self.string_popup.focus_set()
+        self.string_popup.bind('<Return>', lambda e: self.on_ok_string_popup(type_))
+        btn_ok.focus_set()
 
     def cancel_string_popup(self, *args):
         if self.string_popup:
@@ -131,8 +134,7 @@ class BaseWordsNode(BaseNode):
             self.main.base_file_box.config(highlightthickness=0)
 
     def set_word_count(self, word_count):
-        if isinstance(word_count, int):
-            word_count = locale.format("%d", word_count, grouping=True) # add commas
+        word_count = word_count_to_string(word_count)
         self.word_count_label.configure(text=word_count)
 
     def open_file_dlg(self, callback, *args):

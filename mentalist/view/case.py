@@ -46,9 +46,11 @@ class CaseNode(BaseNode):
         '''Open popup for defining the Nth character to toggle
         '''
         self.case_popup = Tk.Toplevel()
+        self.case_popup.transient(self.main.master)
         self.case_popup.withdraw()
         self.case_popup.title('{}: Nth Character'.format(case))
         self.case_popup.resizable(width=False, height=False)
+        self.case_popup.grab_set()
         frame = Tk.Frame(self.case_popup)
         lb = Tk.Label(frame, text='Select Number of Nth Character'.format(self.title))
         lb.pack(fill='both', side='top')
@@ -64,13 +66,14 @@ class CaseNode(BaseNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_case_popup)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_case_popup, case))
+        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_case_popup, case), default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.case_popup, self.main.master)
-        self.case_popup.focus_set()
+        self.case_popup.bind('<Return>', lambda e: self.on_ok_case_popup(case))
+        btn_ok.focus_set()
 
     def cancel_case_popup(self, *args):
         if self.case_popup:
