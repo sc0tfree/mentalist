@@ -95,13 +95,14 @@ class BaseWordsNode(BaseNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_string_popup)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_string_popup, type_))
+        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_string_popup, type_), default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.string_popup, self.main.master)
-        self.string_popup.focus_set()
+        self.string_popup.bind('<Return>', lambda e: self.on_ok_string_popup(type_))
+        btn_ok.focus_set()
 
     def cancel_string_popup(self, *args):
         if self.string_popup:

@@ -66,13 +66,14 @@ class SubstitutionNode(BaseNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_sub_popup)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_sub_popup, type_))
+        btn_ok = Tk.Button(btn_box, text='Ok', command=partial(self.on_ok_sub_popup, type_), default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=40, pady=10)
         
         center_window(self.sub_popup, self.main.master)
-        self.sub_popup.focus_set()
+        self.sub_popup.bind('<Return>', lambda e: self.on_ok_sub_popup(type_))
+        btn_ok.focus_set()
 
     def cancel_sub_popup(self, *args):
         if self.sub_popup:

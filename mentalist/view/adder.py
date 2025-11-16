@@ -110,14 +110,14 @@ class AdderNode(BaseWordsNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_custom_num_window)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_custom_num_window)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_custom_num_window, default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.custom_num_window, self.main.master)
-        
-        self.custom_num_window.focus_set()
+        self.custom_num_window.bind('<Return>', lambda e: self.on_ok_custom_num_window())
+        btn_ok.focus_set()
 
     def cancel_custom_num_window(self, *args):
         '''Cancel was pressed
@@ -194,14 +194,15 @@ class AdderNode(BaseWordsNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_custom_num_window)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_date_window)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_date_window, default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         
         frame.pack(fill='both', padx=10, pady=10)
         
         center_window(self.custom_num_window, self.main.master)
-        self.custom_num_window.focus_set()
+        self.custom_num_window.bind('<Return>', lambda e: self.on_ok_date_window())
+        btn_ok.focus_set()
 
     def on_ok_date_window(self):
         '''Ok was pressed, add the date range attribute
@@ -252,13 +253,14 @@ class AdderNode(BaseWordsNode):
         btn_box = Tk.Frame(frame)
         btn_cancel = Tk.Button(btn_box, text='Cancel', command=self.cancel_special)
         btn_cancel.pack(side='right', padx=10, pady=20)
-        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_special_dlg)
+        btn_ok = Tk.Button(btn_box, text='Ok', command=self.on_ok_special_dlg, default='active')
         btn_ok.pack(side='left', padx=10, pady=20)
         btn_box.pack()
         frame.pack(fill='both', padx=60, pady=10)
         
         center_window(self.special_dlg, self.main.master)
-        self.special_dlg.focus_set()
+        self.special_dlg.bind('<Return>', lambda e: self.on_ok_special_dlg())
+        btn_ok.focus_set()
 
     def cancel_special(self, *args):
         if self.special_dlg:
