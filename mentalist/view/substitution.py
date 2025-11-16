@@ -31,9 +31,11 @@ class SubstitutionNode(BaseNode):
         type_: 'All', 'First', or 'Last'
         '''
         self.sub_popup = Tk.Toplevel()
+        self.sub_popup.transient(self.main.master)
         self.sub_popup.withdraw()
         self.sub_popup.title('Replace {}'.format(type_))
         self.sub_popup.resizable(width=False, height=False)
+        self.sub_popup.grab_set()
         frame = Tk.Frame(self.sub_popup)
         lb = Tk.Label(frame, text='Select Substitution Checks'.format(self.title))
         lb.pack(fill='both', side='top')

@@ -76,9 +76,11 @@ class BaseWordsNode(BaseNode):
         type_: the name to appear in labels ('Base Words')
         '''
         self.string_popup = Tk.Toplevel()
+        self.string_popup.transient(self.main.master)
         self.string_popup.withdraw()
         self.string_popup.title('Input Custom String ({})'.format(type_))
         self.string_popup.resizable(width=False, height=False)
+        self.string_popup.grab_set()
         frame = Tk.Frame(self.string_popup)
         lb = Tk.Label(frame, text='Input Custom String - {}'.format(self.title))
         lb.pack(fill='both', side='top')

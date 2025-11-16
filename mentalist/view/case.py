@@ -46,9 +46,11 @@ class CaseNode(BaseNode):
         '''Open popup for defining the Nth character to toggle
         '''
         self.case_popup = Tk.Toplevel()
+        self.case_popup.transient(self.main.master)
         self.case_popup.withdraw()
         self.case_popup.title('{}: Nth Character'.format(case))
         self.case_popup.resizable(width=False, height=False)
+        self.case_popup.grab_set()
         frame = Tk.Frame(self.case_popup)
         lb = Tk.Label(frame, text='Select Number of Nth Character'.format(self.title))
         lb.pack(fill='both', side='top')

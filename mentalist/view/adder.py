@@ -78,9 +78,11 @@ class AdderNode(BaseWordsNode):
         '''Opens a popup for defining a custom number range
         '''
         self.custom_num_window = Tk.Toplevel()
+        self.custom_num_window.transient(self.main.master)
         self.custom_num_window.withdraw()
         self.custom_num_window.title('{}: Number Selection'.format(self.title))
         self.custom_num_window.resizable(width=False, height=False)
+        self.custom_num_window.grab_set()
         
         frame = Tk.Frame(self.custom_num_window)
         lb = Tk.Label(frame, text='Select Numbers to {}'.format(self.title))
@@ -154,9 +156,11 @@ class AdderNode(BaseWordsNode):
         '''Open a popup for defining a range of dates
         '''
         self.custom_num_window = Tk.Toplevel()
+        self.custom_num_window.transient(self.main.master)
         self.custom_num_window.withdraw()
         self.custom_num_window.title('{}: Date Selection'.format(self.title))
         self.custom_num_window.resizable(width=False, height=False)
+        self.custom_num_window.grab_set()
         frame = Tk.Frame(self.custom_num_window)
         lb = Tk.Label(frame, text='Select Dates to {}'.format(self.title))
         lb.pack(fill='both', side='top')
@@ -224,9 +228,11 @@ class AdderNode(BaseWordsNode):
         '''Open a popup for selecting special characters
         '''
         self.special_dlg = Tk.Toplevel()
+        self.special_dlg.transient(self.main.master)
         self.special_dlg.withdraw()
         self.special_dlg.title('Select Special Characters')
         self.special_dlg.resizable(width=False, height=False)
+        self.special_dlg.grab_set()
         frame = Tk.Frame(self.special_dlg)
         lb = Tk.Label(frame, text='Select Special Characters'.format(self.title))
         lb.pack(fill='both', side='top')

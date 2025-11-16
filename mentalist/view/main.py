@@ -321,6 +321,7 @@ class MainWindow(Tk.Frame):
         self.progress_path = path
         
         self.progress_popup = Tk.Toplevel()
+        self.progress_popup.transient(self.master)
         self.progress_popup.title('Processing')
         self.progress_popup.resizable(width=False, height=False)
         self.progress_popup.grab_set()
