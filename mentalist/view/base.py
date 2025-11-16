@@ -30,9 +30,9 @@ class BaseNode(Frame):
         self.attrs = []
         self.number = number
         self.allow_remove = allow_remove
-        self.configure(borderwidth=1, relief=Tk.RAISED)
+        self.configure(borderwidth=1, relief=Tk.SOLID)
         self.upper_frame = Frame(self)
-        self.upper_frame.configure(borderwidth=1, relief=Tk.RIDGE)
+        self.upper_frame.configure(borderwidth=1, relief=Tk.FLAT)
         self.lb_title = Tk.Label(self.upper_frame, text='{}. {}'.format(number, title))
         self.lb_title.pack(fill="both", side="left", padx=10, pady=10)
         
