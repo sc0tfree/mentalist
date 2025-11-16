@@ -242,7 +242,8 @@ class Controller():
         '''Load a chain stored on disk
         '''
         try:
-            d = json.load(open(path, 'r'))
+            with open(path, 'r') as f:
+                d = json.load(f)
         except:
             self.mainview.showerror('Invalid JSON in chain file', 'The file {} is not a valid chain file'.format(path))
             return
@@ -259,7 +260,8 @@ class Controller():
         '''Save a chain to disk
         '''
         d = model.Serializable.chain_as_string_dict(self.model, version)
-        json.dump(d, open(path, 'w'))
+        with open(path, 'w') as f:
+            json.dump(d, f)
     
     def check_hashcat_compatible(self):
         return self.model.check_hashcat_compatible()
@@ -273,7 +275,8 @@ class Controller():
         rule_count_string = view.main.word_count_to_string(len(rules.split('\n')) - 1)
         rules = '\n'.join([comments, '#\n# Total Rules: {}'.format(rule_count_string), rules])
         
-        open(path, 'w').write(rules)
+        with open(path, 'w') as f:
+            f.write(rules)
         
         end_time = datetime.datetime.now()
         print('Running time (seconds):', (end_time - start_time).seconds)
@@ -316,41 +319,40 @@ class Controller():
 
         # Now pull all the words from the model and write them to the output
         start_time = datetime.datetime.now()
-        f = open(path, "w", errors='ignore')
         
         # This counts the words output so far, to know when to update progress
         output_word_count = 0
         output_byte_count = 0
         progress_percent = 0.
         
-        try:
-            self.mainview.start_progress_bar(path)
-            
-            # This flag is used to cancel processing from another thread
-            self.stop_processing_flag = False
-            
-            for word in self.model.get_words(basewords_only):
-                if self.exiting or self.stop_processing_flag:
-                    self.mainview.cancel_progress_bar()
-                    os.remove(path)
-                    print('Cancelled processing of', path)
-                    return
+        with open(path, "w", errors='ignore') as f:
+            try:
+                self.mainview.start_progress_bar(path)
                 
-                f.write(word + "\n")
-                output_word_count += 1
+                # This flag is used to cancel processing from another thread
+                self.stop_processing_flag = False
                 
-                if output_word_count % 5000 == 0: # process cancel button
-                    self.mainview.progress_popup.update()
-                
-                if output_word_count % 100 == 0: # don't check too often
-                    new_percent = self.model.get_progress_percent()
-                    # update the progress bar when the integer % changes
-                    if int(new_percent) != int(progress_percent):
-                        self.mainview.update_progress_bar(new_percent)
-                        progress_percent = new_percent
-        except model.FileException:
-            pass
-        f.close()
+                for word in self.model.get_words(basewords_only):
+                    if self.exiting or self.stop_processing_flag:
+                        self.mainview.cancel_progress_bar()
+                        os.remove(path)
+                        print('Cancelled processing of', path)
+                        return
+                    
+                    f.write(word + "\n")
+                    output_word_count += 1
+                    
+                    if output_word_count % 5000 == 0: # process cancel button
+                        self.mainview.progress_popup.update()
+                    
+                    if output_word_count % 100 == 0: # don't check too often
+                        new_percent = self.model.get_progress_percent()
+                        # update the progress bar when the integer % changes
+                        if int(new_percent) != int(progress_percent):
+                            self.mainview.update_progress_bar(new_percent)
+                            progress_percent = new_percent
+            except model.FileException:
+                pass
         
         self.mainview.progress_bar_done()
         
