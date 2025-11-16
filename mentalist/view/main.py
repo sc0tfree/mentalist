@@ -9,10 +9,18 @@ import sys
 import webbrowser
 import locale
 
-if sys.platform == 'win32':
-    locale.setlocale(locale.LC_ALL, 'en-US')
-else:
-    locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+# Try to set a locale for number formatting with commas
+# Fall back to system default if specified locale is not available
+try:
+    if sys.platform == 'win32':
+        locale.setlocale(locale.LC_ALL, 'en-US')
+    else:
+        locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
+except locale.Error:
+    try:
+        locale.setlocale(locale.LC_ALL, '')  # Use system default
+    except locale.Error:
+        pass  # Continue without locale-specific formatting
 
 from .scrollable_frame import VerticalScrolledFrame
 from .. import version, icons
@@ -387,7 +395,10 @@ def word_count_to_string(words):
     '''Get a string representation of the word count
     '''
     if isinstance(words, int):
-        words = locale.format("%d", words, grouping=True) # add commas
+        try:
+            words = locale.format_string("%d", words, grouping=True) # add commas
+        except (ValueError, locale.Error):
+            words = str(words)  # Fallback if locale formatting fails
     return words
 
 

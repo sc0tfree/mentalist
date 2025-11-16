@@ -47,7 +47,7 @@ class Serializable(object):
                              'kwargs': {}}
                 
                 # Get all of the members with names matching args to __init__
-                for name in inspect.getargspec(attr.__class__.__init__)[0]:
+                for name in list(inspect.signature(attr.__class__.__init__).parameters.keys()):
                     if name in ['self', 'controller']:
                         continue
 
@@ -454,7 +454,7 @@ class BaseAttr(Serializable):
         # This checks whether the two attributes have the same values for their
         # __init__ arguments (like in serialization)
         result = True
-        for name in inspect.getargspec(self.__class__.__init__)[0]:
+        for name in list(inspect.signature(self.__class__.__init__).parameters.keys()):
             if name in ['self', 'controller']:
                 continue
             if (name in other.__dict__) and (self.__dict__[name] != other.__dict__[name]):
