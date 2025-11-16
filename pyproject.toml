@@ -1,0 +1,48 @@
+[tool.poetry]
+name = "mentalist"
+version = "2.0.0"
+description = "Mentalist is a graphical tool for custom wordlist generation. It utilizes common human paradigms for constructing passwords and can output the full wordlist or rules."
+authors = ["sc0tfree <henry@sc0tfree.com>"]
+license = "MIT"
+readme = "README.md"
+keywords = ["wordlist", "wordlist-generator", "passwords", "security"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+]
+packages = [
+    { include = "mentalist" },
+]
+include = [
+    "mentalist/data/*.txt",
+    "mentalist/data/*.psv",
+    "mentalist/icons/*.gif",
+    "mentalist/icons/*.ico",
+    "mentalist/icons/*.icns",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.11,<4.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+
+[tool.poetry.scripts]
+mentalist = "mentalist.controller:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
