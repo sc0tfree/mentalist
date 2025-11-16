@@ -5,7 +5,7 @@
 
 # Mentalist
 <p align="center">
-  <img src="https://sc0tfree.squarespace.com/s/Mentalist-logo-250px.png" alt="Logo"/>
+  <img src="./assets/mentalist-logo.png" alt="Mentalist Logo" width="250"/>
 </p>
 <br>
 
@@ -16,7 +16,7 @@ For more information on installing and using Mentalist, please **[visit the wiki
 
 <br>
 <p align="center">
-  <img src="https://sc0tfree.squarespace.com/s/mentalist-readme-gui.gif" alt="Mentalist GUI"/>
+  <img src="./assets/mentalist-demo.gif" alt="Mentalist GUI Demo"/>
 </p>
 
 To get up and running quickly, download a prebuilt executable on the [releases page](https://github.com/sc0tfree/mentalist/releases).
