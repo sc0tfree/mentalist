@@ -25,6 +25,34 @@ For more information on installing and using Mentalist, please **[visit the wiki
 
 **IMPORTANT:** Version 2.0+ requires Python 3.11 or higher. If you need to use an older Python version, please use [Mentalist v1.0](https://github.com/sc0tfree/mentalist/releases/tag/v1.0).
 
+### Prerequisites
+
+Mentalist requires **tkinter** (Python's standard GUI library). While tkinter is included with Python, the underlying Tcl/Tk libraries may need to be installed separately depending on your system.
+
+**macOS (Homebrew Python):**
+```bash
+# Install python-tk matching your Python version
+brew install python-tk@3.13  # For Python 3.13
+brew install python-tk@3.12  # For Python 3.12
+brew install python-tk@3.11  # For Python 3.11
+
+# Verify tkinter is available
+python3 -c "import tkinter; print('✓ Tkinter is ready')"
+```
+
+**Linux (Debian/Ubuntu):**
+```bash
+sudo apt-get install python3-tk
+```
+
+**Linux (Fedora/RHEL):**
+```bash
+sudo dnf install python3-tkinter
+```
+
+**Windows:**
+Tkinter is included with the official Python installer from python.org - no additional installation needed.
+
 ### Using Poetry (Recommended)
 
 ```bash
