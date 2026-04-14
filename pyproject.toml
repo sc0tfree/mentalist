@@ -31,7 +31,7 @@ include = [
 python = ">=3.11,<4.0"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
+pytest = ">=8,<10"
 
 [tool.poetry.scripts]
 mentalist = "mentalist.controller:main"
